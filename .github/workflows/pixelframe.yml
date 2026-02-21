@@ -1,8 +1,6 @@
-name: PixelFrame Visual Test
+name: PixelFrame Visual Regression
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -11,41 +9,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -e .
-        playwright install chromium --with-deps
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          playwright install chromium --with-deps
 
-    - name: Run Baseline Capture
-      run: |
-        # In a real scenario, you might pull the baseline from a previous run or a storage bucket
-        # For this template, we'll capture a baseline and then compare against the same URL to demo a pass
-        python -m pixelframe capture run https://example.com --output baseline
-      
-    - name: Run Comparison Capture
-      run: |
-        python -m pixelframe capture run https://example.com --output current
+      - name: Capture Current State
+        run: |
+          pixelframe capture run --config demo-config.yml
 
-    - name: Visual Diff
-      run: |
-        # Sort out the run directories (they have timestamps)
-        RUN1=$(ls -d baseline/run-*)
-        RUN2=$(ls -d current/run-*)
-        python -m pixelframe diff run "$RUN1" "$RUN2" --fail-under 99.0
+      - name: Get Latest Run Directory
+        run: |
+          echo "RUN_DIR=$(ls -d demo-showcase/run-* | tail -1)" >> $GITHUB_ENV
 
-    - name: Upload Reports
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: pixelframe-reports
-        path: |
-          current/run-*/report/
-          current/run-*/diff/
+      - name: Run Visual Diff
+        run: |
+          pixelframe diff run baseline "$RUN_DIR" --fail-on-change
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pixelframe-results
+          path: demo-showcase/
