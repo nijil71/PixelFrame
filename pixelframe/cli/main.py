@@ -4,7 +4,7 @@ from pixelframe.engine.config import PixelFrameConfig, DEFAULT_BREAKPOINTS
 from pixelframe.engine.run_manager import create_run_directory
 from pixelframe.engine.browser import BrowserManager
 from pixelframe.engine.capture import capture_screenshots
-
+from pixelframe.engine.composite import create_composite
 # Root app
 app = typer.Typer(help="PixelFrame - Responsive Screenshot Automation Engine")
 
@@ -31,13 +31,20 @@ def run_capture(
     )
 
     run_path = create_run_directory(output)
+    image_paths = []
+    
+
 
     browser = BrowserManager()
     browser.start()
 
     try:
         capture_screenshots(config, run_path, browser)
+        image_paths = capture_screenshots(config, run_path, browser)
         logger.info("Screenshots captured successfully.")
+        composite_path = run_path / "composite" / "grid.png"
+        create_composite(image_paths, composite_path)
+        logger.info("Composite image generated.")
     finally:
         browser.stop()
 
