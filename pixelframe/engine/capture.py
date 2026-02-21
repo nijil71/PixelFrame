@@ -20,7 +20,16 @@ def capture_screenshots(config, run_path, browser_manager):
             user_agent=bp.user_agent
         )
         try:
-            page.goto(config.url, wait_until="networkidle", timeout=30000)
+            from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
+
+            # Use 'load' which is more reliable than 'networkidle', and extend timeout
+            response = page.goto(config.url, wait_until="load", timeout=45000)
+            
+            if response and response.status >= 400:
+                logger.warning(f"PixelFrame Engine: HTTP {response.status} encountered on {config.url}")
+            
+            # Additional small buffer for JS frameworks to paint
+            page.wait_for_timeout(1500)
 
             file_path = screenshots_path / f"{bp.name}.png"
             page.screenshot(
@@ -29,11 +38,11 @@ def capture_screenshots(config, run_path, browser_manager):
             )
             image_paths.append(file_path)
         except Exception as e:
-            logger.error(f"Failed to capture {bp.name}: {e}")
+            logger.error(f"PixelFrame Engine: Failed to capture {bp.name}: {e}")
         finally:
             page.close()
 
     if not image_paths:
-        raise RuntimeError("No screenshots were captured successfully.")
+        raise RuntimeError("PixelFrame Engine: No screenshots were captured successfully. Aborting.")
 
     return image_paths
