@@ -1,132 +1,167 @@
 # PixelFrame
 
-**PixelFrame** is an automated responsive screenshot and reporting engine for developers.
+PixelFrame is an automated responsive screenshot and reporting engine
+for developers.
 
-Capture websites at multiple breakpoints, generate structured outputs, and prepare responsive previews for documentation, clients, or regression workflows — all from a single CLI command.
+It captures websites at multiple breakpoints, generates structured
+outputs, and prepares responsive previews for documentation, clients, or
+regression workflows from a single CLI command.
 
----
+------------------------------------------------------------------------
 
-## ✨ Features
+## Features
 
-- Multi-breakpoint screenshot capture
-- Full-page support
-- Structured timestamped run directories
-- Clean CLI interface
-- Composite grid generation (in progress)
-- Visual diff mode (planned)
-- CI-friendly architecture
+-   Multi breakpoint screenshot capture
+-   Full page support
+-   Structured timestamped run directories
+-   Clean CLI interface
+-   Composite grid generation (in progress)
+-   Visual diff mode (planned)
+-   CI friendly architecture
 
----
+------------------------------------------------------------------------
 
-## 🚀 Why PixelFrame?
+## Why PixelFrame
 
 Frontend teams and freelancers often need:
 
-- Responsive previews for clients
-- Documentation screenshots
-- Visual regression baselines
-- Repeatable screenshot automation
-- CI pipeline compatibility
+-   Responsive previews for clients
+-   Documentation screenshots
+-   Visual regression baselines
+-   Repeatable screenshot automation
+-   CI pipeline compatibility
 
 Most workflows are manual or fragmented.
 
-PixelFrame provides a clean, structured, automation-first approach.
+PixelFrame provides a clean, structured, automation first approach.
 
----
+------------------------------------------------------------------------
 
-## 📦 Installation
+## Installation
 
-Clone the repository:
+### 1. Clone the repository
 
-```bash
+``` bash
 git clone https://github.com/yourusername/pixelframe.git
 cd pixelframe
+```
 
-Create a virtual environment:
+### 2. Create a virtual environment
 
+``` bash
 python -m venv env
+```
 
-Activate it:
+### 3. Activate it
 
-Windows
+**Windows**
 
+``` bash
 env\Scripts\activate
+```
 
-macOS / Linux
+**macOS or Linux**
 
+``` bash
 source env/bin/activate
+```
 
-Install locally:
+### 4. Install locally
 
+``` bash
 pip install -e .
 playwright install
-🖥 Usage
+```
 
-Basic capture:
+------------------------------------------------------------------------
 
+## Usage
+
+### Basic capture
+
+``` bash
 pixelframe capture run https://example.com
+```
 
 This creates a structured run folder:
 
-pixelframe-output/
-  run-YYYY-MM-DD-HHMMSS/
-    screenshots/
-    composite/
-    report/
+    pixelframe-output/
+      run-YYYY-MM-DD-HHMMSS/
+        screenshots/
+        composite/
+        report/
 
-Each run is isolated and timestamped for stability and future diff comparisons.
+Each run is isolated and timestamped for stability and future diff
+comparisons.
 
-📱 Default Breakpoints
+------------------------------------------------------------------------
 
-Mobile — 375x812
+## Default Breakpoints
 
-Tablet — 768x1024
+-   Mobile --- 375x812
+-   Tablet --- 768x1024
+-   Laptop --- 1366x768
+-   Desktop --- 1920x1080
 
-Laptop — 1366x768
+------------------------------------------------------------------------
 
-Desktop — 1920x1080
+## CLI Options
 
-🏗 Project Structure
-pixelframe/
-  cli/
-  engine/
+``` bash
+pixelframe capture run URL [OPTIONS]
+```
+
+### Options
+
+-   `--output` Custom output directory
+-   `--full-page` or `--no-full-page` Toggle full page screenshot
+    capture
+
+------------------------------------------------------------------------
+
+## Project Structure
+
+    pixelframe/
+      cli/
+      engine/
 
 Designed for extensibility and future automation workflows.
 
-🛣 Roadmap
+------------------------------------------------------------------------
 
-Composite grid generator
+## Roadmap
 
-Professional PDF reports
+-   Composite grid generator
+-   Professional PDF reports
+-   Visual diff mode
+-   Threshold based CI failure
+-   YAML config support
+-   GitHub Action integration
+-   VS Code extension
 
-Visual diff mode
+------------------------------------------------------------------------
 
-Threshold-based CI failure
+## Vision
 
-YAML config support
+PixelFrame aims to become a developer grade responsive testing engine
+with:
 
-GitHub Action integration
+-   Automated reporting
+-   Visual regression comparison
+-   CI integration
+-   Clean version controlled layout baselines
 
-VS Code extension
+------------------------------------------------------------------------
 
-🎯 Future Vision
-
-PixelFrame aims to become a developer-grade responsive testing engine with:
-
-Automated reporting
-
-Visual regression comparison
-
-CI integration
-
-Clean, version-controlled layout baselines
-
-🤝 Contributing
+## Contributing
 
 Pull requests are welcome.
 
-If you plan significant changes, open an issue first to discuss direction.
+If you plan significant changes, open an issue first to discuss
+direction.
 
-📄 License
+------------------------------------------------------------------------
+
+## License
 
 MIT License
