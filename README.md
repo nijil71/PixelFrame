@@ -69,7 +69,7 @@ pixelframe diff run path/to/baseline path/to/current --fail-under 98.0
 
 ---
 
-## 🤖 GitHub Action Integration
+<!-- ## 🤖 GitHub Action Integration
 
 Automate your visual tests on every PR using our GitHub Action template.
 
@@ -79,7 +79,7 @@ Automate your visual tests on every PR using our GitHub Action template.
     python -m pixelframe diff run "$BASELINE" "$CURRENT" --fail-under 95.0
 ```
 
----
+--- -->
 
 ## 📋 Available Device Presets
 Run `pixelframe devices list` to see all 15+ built-in presets including:

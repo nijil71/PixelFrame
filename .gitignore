@@ -43,3 +43,5 @@ htmlcov/
 
 # MyPy
 .mypy_cache/
+
+.github/
