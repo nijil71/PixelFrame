@@ -1,0 +1,17 @@
+# ==========================================
+# PixelFrame Engine - Demo Configuration
+# ==========================================
+# Run this demo with:
+#   pixelframe capture run --config demo-config.yml
+# ==========================================
+
+url: "https://example.com"
+output_dir: "demo-showcase"
+full_page: true
+
+# Emulate specific devices accurately using device scale factor, touch support, etc.
+devices:
+  - "iPhone 15 Pro Max"
+  - "iPad Pro 12.9"
+  - "MacBook Pro 14"
+  - "Desktop 4K"

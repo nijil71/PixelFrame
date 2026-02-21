@@ -54,17 +54,12 @@ pixelframe capture run https://apple.com --devices "iPhone 15, iPad Air, MacBook
 
 ### 3. Using YAML Configuration
 Manage complex runs via a `pixelframe.yml` file.
-```yaml
-url: "https://your-site.com"
-output_dir: "visual-audit"
-full_page: true
-devices:
-  - "iPhone 15 Pro Max"
-  - "Desktop 1440p"
-```
+
 ```bash
-pixelframe capture run --config pixelframe.yml
+pixelframe capture run --config demo-config.yml
 ```
+
+*Tip: Check out the included `demo-config.yml` in the repository for a complete example utilizing real-world devices.*
 
 ### 4. Visual Regression (Diffing)
 Compare a baseline run against a new run.
