@@ -1,167 +1,110 @@
 # PixelFrame
 
-PixelFrame is an automated responsive screenshot and reporting engine
-for developers.
+**The Professional Visual Regression & Responsive Testing Engine.**
 
-It captures websites at multiple breakpoints, generates structured
-outputs, and prepares responsive previews for documentation, clients, or
-regression workflows from a single CLI command.
+PixelFrame is a high-performance CLI tool designed for frontend teams to automate responsive screenshot capture, generate beautiful reports, and perform visual regression testing with ease.
 
-------------------------------------------------------------------------
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Playwright](https://img.shields.io/badge/powered%20by-Playwright-green.svg)](https://playwright.dev/python/)
 
-## Features
+---
 
--   Multi breakpoint screenshot capture
--   Full page support
--   Structured timestamped run directories
--   Clean CLI interface
--   Composite grid generation (in progress)
--   Visual diff mode (planned)
--   CI friendly architecture
+## 🚀 Key Features
 
-------------------------------------------------------------------------
+- 📸 **Multi-Breakpoint Capture**: High-quality screenshots across mobile, tablet, and desktop viewports in one command.
+- 📱 **Device Library**: 15+ curated real-world device presets (iPhone 15, MacBook Pro 14, Galaxy S23, etc.).
+- 📂 **YAML Configuration**: Scale your testing with `pixelframe.yml` configuration files.
+- 🌓 **Visual Diffing**: Pixel-perfect comparison between runs with red-highlighted difference heatmaps.
+- 📑 **Self-Contained Reports**: Portable HTML/PDF reports with embedded base64 images—no external assets required.
+- 🤖 **CI/CD Ready**: Integrated exit codes and GitHub Action support for automated regression gating.
 
-## Why PixelFrame
+---
 
-Frontend teams and freelancers often need:
+## 📦 Installation
 
--   Responsive previews for clients
--   Documentation screenshots
--   Visual regression baselines
--   Repeatable screenshot automation
--   CI pipeline compatibility
-
-Most workflows are manual or fragmented.
-
-PixelFrame provides a clean, structured, automation first approach.
-
-------------------------------------------------------------------------
-
-## Installation
-
-### 1. Clone the repository
-
-``` bash
-git clone https://github.com/yourusername/pixelframe.git
-cd pixelframe
-```
-
-### 2. Create a virtual environment
-
-``` bash
+### 1. Setup Environment
+```bash
+git clone https://github.com/nijil71/PixelFrame.git
+cd PixelFrame
 python -m venv env
+source env/bin/activate  # Windows: env\Scripts\activate
 ```
 
-### 3. Activate it
-
-**Windows**
-
-``` bash
-env\Scripts\activate
-```
-
-**macOS or Linux**
-
-``` bash
-source env/bin/activate
-```
-
-### 4. Install locally
-
-``` bash
+### 2. Install PixelFrame
+```bash
 pip install -e .
-playwright install
+playwright install chromium --with-deps
 ```
 
-------------------------------------------------------------------------
+---
 
-## Usage
+## 🛠 Usage
 
-### Basic capture
-
-``` bash
+### 1. Basic Capture
+Capture a single URL using default breakpoints.
+```bash
 pixelframe capture run https://example.com
 ```
 
-This creates a structured run folder:
-
-    pixelframe-output/
-      run-YYYY-MM-DD-HHMMSS/
-        screenshots/
-        composite/
-        report/
-
-Each run is isolated and timestamped for stability and future diff
-comparisons.
-
-------------------------------------------------------------------------
-
-## Default Breakpoints
-
--   Mobile --- 375x812
--   Tablet --- 768x1024
--   Laptop --- 1366x768
--   Desktop --- 1920x1080
-
-------------------------------------------------------------------------
-
-## CLI Options
-
-``` bash
-pixelframe capture run URL [OPTIONS]
+### 2. Emulating Real Devices
+Use fuzzy-matching to select specific device profiles.
+```bash
+pixelframe capture run https://apple.com --devices "iPhone 15, iPad Air, MacBook Pro 14"
 ```
 
-### Options
+### 3. Using YAML Configuration
+Manage complex runs via a `pixelframe.yml` file.
+```yaml
+url: "https://your-site.com"
+output_dir: "visual-audit"
+full_page: true
+devices:
+  - "iPhone 15 Pro Max"
+  - "Desktop 1440p"
+```
+```bash
+pixelframe capture run --config pixelframe.yml
+```
 
--   `--output` Custom output directory
--   `--full-page` or `--no-full-page` Toggle full page screenshot
-    capture
+### 4. Visual Regression (Diffing)
+Compare a baseline run against a new run.
+```bash
+pixelframe diff run path/to/baseline path/to/current --fail-under 98.0
+```
 
-------------------------------------------------------------------------
+---
 
-## Project Structure
+## 🤖 GitHub Action Integration
 
-    pixelframe/
-      cli/
-      engine/
+Automate your visual tests on every PR using our GitHub Action template.
 
-Designed for extensibility and future automation workflows.
+```yaml
+- name: Visual Diff
+  run: |
+    python -m pixelframe diff run "$BASELINE" "$CURRENT" --fail-under 95.0
+```
 
-------------------------------------------------------------------------
+---
 
-## Roadmap
+## 📋 Available Device Presets
+Run `pixelframe devices list` to see all 15+ built-in presets including:
+- **Phones**: iPhone 15, Galaxy S23, Pixel 8...
+- **Tablets**: iPad Air, iPad Pro 12.9, Galaxy Tab S9...
+- **Laptops**: MacBook Air, Surface Pro 9...
+- **Desktops**: 1080p, 1440p, 4K...
 
--   Composite grid generator
--   Professional PDF reports
--   Visual diff mode
--   Threshold based CI failure
--   YAML config support
--   GitHub Action integration
--   VS Code extension
+---
 
-------------------------------------------------------------------------
+## 🤝 Contributing
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-## Vision
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-PixelFrame aims to become a developer grade responsive testing engine
-with:
+---
 
--   Automated reporting
--   Visual regression comparison
--   CI integration
--   Clean version controlled layout baselines
-
-------------------------------------------------------------------------
-
-## Contributing
-
-Pull requests are welcome.
-
-If you plan significant changes, open an issue first to discuss
-direction.
-
-------------------------------------------------------------------------
-
-## License
-
-MIT License
+## 📄 License
+Distributed under the MIT License. See `LICENSE` for more information.

@@ -9,25 +9,39 @@ from pixelframe.engine.report import generate_report
 from pixelframe.engine.devices import get_devices, list_devices
 
 # Root app
-app = typer.Typer(help="PixelFrame - Responsive Screenshot Automation Engine")
+app = typer.Typer(
+    help="PixelFrame - The Professional Visual Regression & Responsive Testing Engine.",
+    add_completion=False,
+    rich_markup_mode="rich"
+)
 
-# Sub command group
-capture_app = typer.Typer()
+# Sub command groups
+capture_app = typer.Typer(help="Capture responsive screenshots and generate reports.")
 app.add_typer(capture_app, name="capture")
 
-devices_app = typer.Typer()
+devices_app = typer.Typer(help="Explore and list available device presets.")
 app.add_typer(devices_app, name="devices")
 
-diff_app = typer.Typer()
+diff_app = typer.Typer(help="Compare screenshot runs and detect visual regressions.")
 app.add_typer(diff_app, name="diff")
 
 @diff_app.command("run")
 def run_diff(
-    run1: str = typer.Argument(..., help="Path to first run directory"),
-    run2: str = typer.Argument(..., help="Path to second run directory"),
-    output: str = typer.Option(None, help="Output directory for diff results (defaults to diff inside run2)"),
-    threshold: float = typer.Option(95.0, help="Similarity percentage threshold (default 95.0)"),
+    run1: str = typer.Argument(..., help="Path to first run directory (baseline)"),
+    run2: str = typer.Argument(..., help="Path to second run directory (new)"),
+    output: str = typer.Option(None, help="Output directory for diff results"),
+    threshold: float = typer.Option(
+        95.0, 
+        "--threshold", "-t", "--fail-under",
+        help="Similarity percentage threshold. Exit with 1 if any image falls below this."
+    ),
 ):
+    """
+    Compare screenshots between two runs.
+    
+    Generates pixel-level diff overlays and a similarity report.
+    Returns exit code 1 if any comparison falls below the threshold.
+    """
     from pathlib import Path
     from pixelframe.engine.diff import generate_diff
     from pixelframe.engine.report import _image_to_base64
@@ -121,7 +135,7 @@ def run_capture(
     devices: str = typer.Option(None, help="Comma-separated list of devices to emulate"),
 ):
     if config_file:
-        from pixelframe.engine.config_loader import load_config
+        from pixelframe.engine.config import load_config
         logger.info(f"Loading config from {config_file}")
         try:
             config = load_config(config_file)
