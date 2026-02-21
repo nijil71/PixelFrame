@@ -35,6 +35,8 @@ def run_diff(
         "--threshold", "-t", "--fail-under",
         help="Similarity percentage threshold. Exit with 1 if any image falls below this."
     ),
+    open_report: bool = typer.Option(False, "--open-report", help="Open the generated HTML report in browser"),
+    json_output: bool = typer.Option(False, "--json", help="Output final results as JSON for CI"),
 ):
     """
     Compare screenshots between two runs.
@@ -106,13 +108,46 @@ def run_diff(
     report_file = out_dir / "diff_report.html"
     report_file.write_text(html_content, encoding="utf-8")
     
-    logger.info(f"Diff report generated: {report_file}")
+    if open_report:
+        import webbrowser
+        webbrowser.open(f"file://{report_file.resolve()}")
+        
+    if json_output:
+        import json
+        print(json.dumps({
+            "status": "PASSED" if all_passed else "FAILED",
+            "threshold": threshold,
+            "breakpoints": len(diff_results),
+            "report_path": str(report_file.resolve())
+        }))
+    else:
+        from rich.console import Console
+        from rich.table import Table
+        from rich.panel import Panel
+        logger.info(f"Diff report generated: {report_file}")
+        
+        console = Console()
+        table = Table(title="Visual Diff Results")
+        table.add_column("Breakpoint", style="cyan")
+        table.add_column("Similarity", justify="right")
+        table.add_column("Status", justify="center")
+        
+        for r in diff_results:
+            status_str = "[green]PASS[/green]" if r['passed'] else "[red]FAIL[/red]"
+            table.add_row(r['name'], f"{r['similarity']}%", status_str)
+            
+        summary_panel = Panel(
+            table, 
+            title="PixelFrame Summary", 
+            border_style="green" if all_passed else "red",
+            expand=False
+        )
+        console.print(summary_panel)
     
     if not all_passed:
-        logger.error("Visual diff threshold failed for one or more breakpoints.")
+        if not json_output:
+            logger.error("Visual diff threshold failed for one or more breakpoints.")
         raise typer.Exit(code=1)
-    else:
-        logger.info("All breakpoints passed visual diff threshold.")
 
 
 @devices_app.command("list")
@@ -133,6 +168,8 @@ def run_capture(
     output: str = typer.Option("pixelframe-output", help="Output directory"),
     full_page: bool = typer.Option(True, help="Capture full page"),
     devices: str = typer.Option(None, help="Comma-separated list of devices to emulate"),
+    open_report: bool = typer.Option(False, "--open-report", help="Open the generated HTML report in browser"),
+    json_output: bool = typer.Option(False, "--json", help="Output final results as JSON for CI"),
 ):
     if config_file:
         from pixelframe.engine.config import load_config
@@ -199,7 +236,7 @@ def run_capture(
 
     try:
         image_paths = capture_screenshots(config, run_path, browser)
-        logger.info("Screenshots captured successfully.")
+        if not json_output: logger.info("Screenshots captured successfully.")
 
         composite_path = run_path / "composite" / "grid.png"
         breakpoint_labels = [
@@ -207,7 +244,7 @@ def run_capture(
             for bp in config.breakpoints
         ]
         create_composite(image_paths, composite_path, breakpoint_names=breakpoint_labels)
-        logger.info("Composite image generated.")
+        if not json_output: logger.info("Composite image generated.")
 
         generate_report(
             config=config,
@@ -216,15 +253,45 @@ def run_capture(
             image_paths=image_paths,
             browser_manager=browser,
         )
-        logger.info("Report generated successfully.")
+        if not json_output: logger.info("Report generated successfully.")
+        
+        if open_report:
+            import webbrowser
+            report_file = run_path / "report" / "report.html"
+            if report_file.exists():
+                webbrowser.open(f"file://{report_file.resolve()}")
+                
+        if json_output:
+            import json
+            print(json.dumps({
+                "status": "PASSED",
+                "run_directory": str(run_path.resolve()),
+                "breakpoints": len(config.breakpoints),
+                "url": config.url
+            }))
+        else:
+            from rich.console import Console
+            from rich.panel import Panel
+            
+            console = Console()
+            summary = (
+                f"[bold cyan]URL:[/bold cyan] {config.url}\n"
+                f"[bold cyan]Breakpoints:[/bold cyan] {len(config.breakpoints)}\n"
+                f"[bold cyan]Output:[/bold cyan] [green]{run_path}[/green]\n"
+                f"[bold cyan]Status:[/bold cyan] [bold green]PASSED[/bold green]"
+            )
+            console.print(Panel(summary, title="PixelFrame Capture Summary", expand=False, border_style="blue"))
 
     except Exception as e:
-        logger.error(f"Pipeline failed: {e}")
+        if json_output:
+            import json
+            print(json.dumps({"status": "FAILED", "error": str(e)}))
+        else:
+            from rich.console import Console
+            Console().print(f"[bold red]❌ Pipeline failed:[/bold red] {e}")
         raise typer.Exit(code=1)
     finally:
         browser.stop()
-
-    logger.info(f"Run completed at {run_path}")
 
 
 def main():
