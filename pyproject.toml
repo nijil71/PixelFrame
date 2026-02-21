@@ -10,7 +10,8 @@ dependencies = [
     "typer[all]",
     "pillow",
     "jinja2",
-    "rich"
+    "rich",
+    "pyyaml"
 ]
 
 [project.scripts]

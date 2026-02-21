@@ -15,7 +15,19 @@ class BrowserManager:
         if self.playwright:
             self.playwright.stop()
 
-    def new_page(self, width: int, height: int):
-        return self.browser.new_page(
-            viewport={"width": width, "height": height}
-        )
+    def new_page(
+        self, width: int, height: int, 
+        device_scale_factor: float = 1.0, 
+        is_mobile: bool = False, 
+        has_touch: bool = False, 
+        user_agent: str = None
+    ):
+        options = {
+            "viewport": {"width": width, "height": height},
+            "device_scale_factor": device_scale_factor,
+            "is_mobile": is_mobile,
+            "has_touch": has_touch,
+        }
+        if user_agent:
+            options["user_agent"] = user_agent
+        return self.browser.new_page(**options)

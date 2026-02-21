@@ -1,11 +1,15 @@
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 @dataclass
 class Breakpoint:
     name: str
     width: int
     height: int
+    device_scale_factor: float = 1.0
+    is_mobile: bool = False
+    has_touch: bool = False
+    user_agent: Optional[str] = None
 
 @dataclass
 class PixelFrameConfig:

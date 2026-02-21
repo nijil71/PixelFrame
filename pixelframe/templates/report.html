@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>PixelFrame Report — {{ url }}</title>
+    <style>
+      /* ===== Base Styles ===== */
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+        color: #1a1a2e;
+        background: #ffffff;
+        padding: 40px 50px;
+        line-height: 1.5;
+      }
+
+      h1 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #0f3460;
+        margin-bottom: 6px;
+      }
+
+      h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #16213e;
+        margin-bottom: 14px;
+        padding-bottom: 6px;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #0f3460;
+        margin-bottom: 10px;
+      }
+
+      /* ===== Header ===== */
+      .header {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #0f3460;
+      }
+
+      .header .subtitle {
+        font-size: 13px;
+        color: #666;
+        margin-top: 4px;
+      }
+
+      .meta-grid {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 4px 16px;
+        font-size: 13px;
+        margin-top: 12px;
+      }
+
+      .meta-grid .label {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .meta-grid .value {
+        color: #555;
+        word-break: break-all;
+      }
+
+      /* ===== Breakpoint Summary Table ===== */
+      .summary-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+
+      .summary-table th {
+        background: #0f3460;
+        color: #fff;
+        padding: 8px 12px;
+        text-align: left;
+        font-weight: 600;
+      }
+
+      .summary-table td {
+        padding: 7px 12px;
+        border-bottom: 1px solid #e8e8e8;
+      }
+
+      .summary-table tr:nth-child(even) td {
+        background: #f7f8fc;
+      }
+
+      /* ===== Sections ===== */
+      .section {
+        margin-bottom: 30px;
+      }
+
+      /* ===== Screenshot Cards ===== */
+      .screenshot-card {
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 16px;
+        background: #fafafa;
+      }
+
+      .screenshot-card .card-header {
+        background: #f0f2f8;
+        padding: 10px 16px;
+        font-weight: 600;
+        font-size: 14px;
+        color: #16213e;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .screenshot-card .card-header span {
+        font-weight: 400;
+        color: #888;
+        font-size: 12px;
+        margin-left: 8px;
+      }
+
+      .screenshot-card .card-body {
+        padding: 12px;
+        text-align: center;
+      }
+
+      .screenshot-card img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #eee;
+        border-radius: 3px;
+      }
+
+      /* ===== Composite Image ===== */
+      .composite-container {
+        text-align: center;
+      }
+
+      .composite-container img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      /* ===== Print / PDF Styles ===== */
+      @page {
+        size: A4;
+        margin: 15mm 12mm;
+      }
+
+      @media print {
+        body {
+          padding: 0;
+          font-size: 11px;
+        }
+
+        h1 { font-size: 22px; }
+        h2 { font-size: 17px; }
+
+        .section {
+          page-break-after: always;
+        }
+
+        .screenshot-card {
+          page-break-inside: avoid;
+          page-break-after: always;
+        }
+
+        .screenshot-card img {
+          max-height: 680px;
+          width: auto;
+          max-width: 100%;
+          object-fit: contain;
+        }
+
+        .composite-container img {
+          max-height: 700px;
+          width: auto;
+          max-width: 100%;
+          object-fit: contain;
+        }
+
+        .no-break {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- ===== Report Header ===== -->
+    <div class="header">
+      <h1>PixelFrame Report</h1>
+      <div class="subtitle">Responsive Screenshot Report</div>
+      <div class="meta-grid">
+        <div class="label">URL</div>
+        <div class="value">{{ url }}</div>
+        <div class="label">Generated</div>
+        <div class="value">{{ timestamp }}</div>
+        <div class="label">Breakpoints</div>
+        <div class="value">{{ screenshots | length }}</div>
+      </div>
+    </div>
+
+    <!-- ===== Breakpoint Summary ===== -->
+    <div class="section no-break">
+      <h2>Breakpoint Summary</h2>
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Breakpoint</th>
+            <th>Width</th>
+            <th>Height</th>
+            <th>File Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in screenshots %}
+          <tr>
+            <td>{{ item.name | capitalize }}</td>
+            <td>{{ item.width }}px</td>
+            <td>{{ item.height }}px</td>
+            <td>{{ item.file_size_kb }} KB</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== Composite Overview ===== -->
+    <div class="section">
+      <h2>Composite Overview</h2>
+      <div class="composite-container">
+        <img src="{{ composite_path }}" alt="Composite grid of all breakpoints" />
+      </div>
+    </div>
+
+    <!-- ===== Individual Breakpoints ===== -->
+    {% for item in screenshots %}
+    <div class="screenshot-card">
+      <div class="card-header">
+        {{ item.name | capitalize }}
+        <span>{{ item.width }} × {{ item.height }}px · {{ item.file_size_kb }} KB</span>
+      </div>
+      <div class="card-body">
+        <img src="{{ item.path }}" alt="{{ item.name }} screenshot" />
+      </div>
+    </div>
+    {% endfor %}
+
+  </body>
+</html>

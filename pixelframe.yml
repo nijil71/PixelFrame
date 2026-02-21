@@ -1,0 +1,6 @@
+url: "https://example.com"
+output_dir: "pixelframe-test-config"
+full_page: false
+devices:
+  - "ipad pro 11"
+  - "macbook air"
