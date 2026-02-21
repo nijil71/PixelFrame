@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Playwright
+playwright-report/
+test-results/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# PixelFrame output
+pixelframe-output/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Pytest
+.pytest_cache/
+
+# MyPy
+.mypy_cache/

@@ -1,0 +1,25 @@
+[project]
+name = "pixelframe"
+version = "0.1.0"
+description = "Automated responsive screenshot and reporting engine"
+authors = [{ name = "Nijil N M" }]
+requires-python = ">=3.10"
+
+dependencies = [
+    "playwright",
+    "typer[all]",
+    "pillow",
+    "jinja2",
+    "rich"
+]
+
+[project.scripts]
+pixelframe = "pixelframe.cli.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pixelframe*"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
