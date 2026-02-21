@@ -1,4 +1,10 @@
 import typer
+from typing import Optional
+from rich.console import Console
+from rich.panel import Panel
+from rich.align import Align
+
+from pixelframe import __version__
 from pixelframe.engine.logger import setup_logger
 from pixelframe.engine.config import PixelFrameConfig, DEFAULT_BREAKPOINTS, Breakpoint
 from pixelframe.engine.run_manager import create_run_directory
@@ -14,6 +20,36 @@ app = typer.Typer(
     add_completion=False,
     rich_markup_mode="rich"
 )
+
+def version_callback(value: bool):
+    if value:
+        console = Console()
+        logo = """[bold cyan]
+  _____ _          _ ______                         
+ |  __ (_)        | |  ____|                        
+ | |__) |__  _____| | |__ _ __ __ _ _ __ ___   ___  
+ |  ___/ \\ \\/ / _ \\ |  __| '__/ _` | '_ ` _ \\ / _ \\ 
+ | |   | |>  <  __/ | |  | | | (_| | | | | | |  __/ 
+ |_|   |_/_/\\_\\___|_|_|  |_|  \\__,_|_| |_| |_|\\___| 
+[/bold cyan]"""
+        panel = Panel(
+            Align.center(logo + f"\\n[bold white]Version: {__version__}[/bold white]"), 
+            border_style="cyan",
+            expand=False
+        )
+        console.print(panel)
+        raise typer.Exit()
+
+@app.callback()
+def main_callback(
+    version: Optional[bool] = typer.Option(
+        None, "--version", "-v", callback=version_callback, is_eager=True, help="Show version and exit."
+    )
+):
+    """
+    PixelFrame CLI Engine
+    """
+    pass
 
 # Sub command groups
 capture_app = typer.Typer(help="Capture responsive screenshots and generate reports.")
@@ -124,7 +160,7 @@ def run_diff(
         from rich.console import Console
         from rich.table import Table
         from rich.panel import Panel
-        logger.info(f"Diff report generated: {report_file}")
+        logger.info(f"PixelFrame Engine: Diff report generated at {report_file}")
         
         console = Console()
         table = Table(title="Visual Diff Results")
@@ -236,7 +272,7 @@ def run_capture(
 
     try:
         image_paths = capture_screenshots(config, run_path, browser)
-        if not json_output: logger.info("Screenshots captured successfully.")
+        if not json_output: logger.info("PixelFrame Engine: Screenshots captured successfully.")
 
         composite_path = run_path / "composite" / "grid.png"
         breakpoint_labels = [
@@ -244,7 +280,7 @@ def run_capture(
             for bp in config.breakpoints
         ]
         create_composite(image_paths, composite_path, breakpoint_names=breakpoint_labels)
-        if not json_output: logger.info("Composite image generated.")
+        if not json_output: logger.info("PixelFrame Engine: Composite grid generated.")
 
         generate_report(
             config=config,
@@ -253,7 +289,7 @@ def run_capture(
             image_paths=image_paths,
             browser_manager=browser,
         )
-        if not json_output: logger.info("Report generated successfully.")
+        if not json_output: logger.info("PixelFrame Engine: Interactive report generated successfully.")
         
         if open_report:
             import webbrowser
