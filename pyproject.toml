@@ -1,9 +1,18 @@
 [project]
 name = "pixelframe"
-version = "0.1.0"
+version = "0.2.0"
 description = "Automated responsive screenshot and reporting engine"
+readme = "README.md"
 authors = [{ name = "Nijil N M" }]
 requires-python = ">=3.10"
+keywords = ["playwright", "screenshot", "visual-regression", "testing", "cli"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+]
 
 dependencies = [
     "playwright",
