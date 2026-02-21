@@ -33,7 +33,7 @@ def version_callback(value: bool):
  |_|   |_/_/\\_\\___|_|_|  |_|  \\__,_|_| |_| |_|\\___| 
 [/bold cyan]"""
         panel = Panel(
-            Align.center(logo + f"\\n[bold white]Version: {__version__}[/bold white]"), 
+            Align.center(logo + f"\n[bold white]Version: {__version__}[/bold white]"), 
             border_style="cyan",
             expand=False
         )
