@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/banner1.png" alt="PixelFrame Banner" width="500">
+  <!-- <img src="assets/banner1.png" alt="PixelFrame Banner" width="500"> -->
 
   # PixelFrame
 
