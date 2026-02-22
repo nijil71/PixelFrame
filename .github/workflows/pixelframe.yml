@@ -1,6 +1,8 @@
 name: PixelFrame Visual Regression
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
