@@ -1,10 +1,11 @@
 <div align="center">
-  <!-- <img src="assets/banner1.png" alt="PixelFrame Banner" width="500"> -->
+  <!-- <img src="assets/banner.png" alt="PixelFrame Banner" width="600"> -->
 
   # PixelFrame
 
-  **Professional Visual Regression & Responsive Testing Engine**
-[![PyPI version](https://img.shields.io/pypi/v/pixelframe.svg)](https://pypi.org/project/pixelframe/)
+  **Visual Regression & Responsive Testing Engine**
+
+  [![PyPI version](https://img.shields.io/pypi/v/pixelframe.svg?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/pixelframe/)
   [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
   [![Playwright](https://img.shields.io/badge/powered%20by-Playwright-green.svg?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev/python/)
   [![MIT License](https://img.shields.io/badge/license-MIT-important.svg?style=for-the-badge)](LICENSE)
@@ -21,20 +22,35 @@
 
 ---
 
+---
+
 ## Overview
 
-PixelFrame is a high-performance CLI tool designed for frontend teams to automate responsive screenshot capture, generate detailed reports, and perform visual regression testing. It provides a structured, automation-first approach to verifying UI consistency across dozens of devices and viewports.
+PixelFrame is a CLI tool for automating responsive screenshot capture and visual regression testing. It generates structured reports and integrates with CI pipelines to help teams verify UI consistency across viewports.
 
+When PixelFrame runs, it produces a structured audit directory:
+
+pixelframe-output/
+  ├── screenshots/
+  ├── composite/
+  ├── diff/
+  └── report/
+
+---
+## Why PixelFrame?
+
+Modern frontend teams struggle to detect unintended UI regressions across devices. PixelFrame provides a deterministic, CI-friendly way to verify layout consistency before shipping changes.
 
 
 ---
+
 
 ## Features
 
 *   **Multi-Breakpoint Capture**: Capture high-fidelity screenshots across mobile, tablet, and desktop viewports in a single run.
 *   **Smart Emulation**: Built-in library of 15+ device presets (iPhone 15, MacBook Pro, etc.) with support for device scale factors and touch.
 *   **YAML Configuration**: Manage complex test suites using clean, version-controlled configuration files.
-*   **Visual Regression**: Pixel-perfect diffing with red-highlighted heatmaps and automated similarity scoring.
+*   **Visual Regression**: Pixel-level diffing with similarity scoring
 *   **Portable Reports**: Self-contained HTML reports with embedded images for easy sharing and documentation.
 *   **CI Ready**: Integrated exit codes, JSON output, and GitHub Action templates for automated regression gating.
 
@@ -42,20 +58,30 @@ PixelFrame is a high-performance CLI tool designed for frontend teams to automat
 
 ## Installation
 
-### 1. Prerequisites
-PixelFrame requires **Python 3.10** or higher.
+### 1. From PyPI
+The easiest way to get PixelFrame is via `pip`:
 
-### 2. Setup
+```bash
+# Install the package
+pip install pixelframe
+
+# Install browser dependencies
+playwright install chromium --with-deps
+```
+
+### 2. Development Setup (Manual)
+If you want to contribute or run from source:
+
 ```bash
 # Clone the repository
 git clone https://github.com/nijil71/PixelFrame.git
 cd PixelFrame
 
-# Create and activate virtual environment
+# Setup virtual environment
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# Install package
+# Install in editable mode
 pip install -e .
 playwright install chromium --with-deps
 ```
