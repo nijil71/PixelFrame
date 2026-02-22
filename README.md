@@ -22,19 +22,19 @@
 
 ---
 
----
-
 ## Overview
 
 PixelFrame is a CLI tool for automating responsive screenshot capture and visual regression testing. It generates structured reports and integrates with CI pipelines to help teams verify UI consistency across viewports.
 
 When PixelFrame runs, it produces a structured audit directory:
 
+```text
 pixelframe-output/
-  ├── screenshots/
-  ├── composite/
-  ├── diff/
-  └── report/
+├── screenshots/      
+├── composite/        
+├── diff/             
+└── report/           
+```
 
 ---
 ## Why PixelFrame?
