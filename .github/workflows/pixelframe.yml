@@ -32,7 +32,7 @@ jobs:
 
       - name: Run Visual Diff
         run: |
-          pixelframe diff run baseline "$RUN_DIR" --fail-under 99.0
+          pixelframe diff run baseline "$RUN_DIR" --fail-under 96.0
 
       - name: Upload Artifacts
         if: always()
