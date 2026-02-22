@@ -4,7 +4,7 @@
   # PixelFrame
 
   **Professional Visual Regression & Responsive Testing Engine**
-
+[![PyPI version](https://img.shields.io/pypi/v/pixelframe.svg)](https://pypi.org/project/pixelframe/)
   [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
   [![Playwright](https://img.shields.io/badge/powered%20by-Playwright-green.svg?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev/python/)
   [![MIT License](https://img.shields.io/badge/license-MIT-important.svg?style=for-the-badge)](LICENSE)

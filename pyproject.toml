@@ -1,8 +1,9 @@
 [project]
 name = "pixelframe"
-version = "0.2.0"
+version = "0.3.0"
 description = "Automated responsive screenshot and reporting engine"
 readme = "README.md"
+license = {text = "MIT"}
 authors = [{ name = "Nijil N M" }]
 requires-python = ">=3.10"
 keywords = ["playwright", "screenshot", "visual-regression", "testing", "cli"]
