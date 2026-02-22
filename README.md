@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/banner.png" alt="PixelFrame Banner" width="800">
+  <img src="assets/banner1.jpeg" alt="PixelFrame Banner" width="800">
 
   # PixelFrame
 
@@ -25,10 +25,7 @@
 
 PixelFrame is a high-performance CLI tool designed for frontend teams to automate responsive screenshot capture, generate detailed reports, and perform visual regression testing. It provides a structured, automation-first approach to verifying UI consistency across dozens of devices and viewports.
 
-### CLI Showcase
-<p align="center">
-  <img src="assets/showcase.png" alt="PixelFrame CLI Showcase" width="750">
-</p>
+
 
 ---
 
@@ -130,6 +127,6 @@ Contributions are welcome! Whether you are adding a new device preset or improvi
 ---
 
 <div align="center">
-  <p>Built for frontend teams by the PixelFrame contributors</p>
+  <!-- <p>Built for frontend teams by the PixelFrame contributors</p> -->
   <p>Distributed under the MIT License. See <a href="LICENSE">LICENSE</a> for more information.</p>
 </div>
